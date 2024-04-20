@@ -5,6 +5,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import uz.inha.cars.entity.Attachment;
+import uz.inha.cars.entity.AttachmentContent;
 import uz.inha.cars.entity.Car;
 import uz.inha.cars.entity.Company;
 
@@ -22,7 +25,18 @@ public class EditCar extends HttpServlet {
         entityManager.getTransaction().begin();
         Car car = entityManager.find(Car.class, id);
         Company company = entityManager.find(Company.class, companyId);
+        HttpSession session = req.getSession();
+        Object o = session.getAttribute("currentFile");
+        if(o!=null){
+            UUID attachId = (UUID) o;
+            Attachment photo = car.getPhoto();
+            AttachmentContent result = entityManager.createQuery("select a from AttachmentContent a where a.attachment.id =: id", AttachmentContent.class).setParameter("id", photo.getId()).getSingleResult();
+            entityManager.remove(result);
+            Attachment attachment = entityManager.find(Attachment.class, attachId);
+            car.setPhoto(attachment);
+        }
         car.setName(req.getParameter("name"));
+        session.removeAttribute("currentFile");
         car.setCompany(company);
         entityManager.getTransaction().commit();
         resp.sendRedirect("/admin/car.jsp");

@@ -39,6 +39,6 @@ public class UserRepo {
     }
 
     public static List<User> findAll() {
-        return entityManager.createQuery("from User ", User.class).getResultList();
+        return entityManager.createQuery("from User order by firstName, lastName", User.class).getResultList();
     }
 }

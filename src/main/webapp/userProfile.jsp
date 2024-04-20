@@ -95,7 +95,11 @@
 <div class="container">
     <div class="user-info">
         <div class="user-photo">
-            <img src="user_photo.jpg" alt="User Photo">
+            <%if (user.getProfilePhoto() != null) {%>
+            <td><img src="/file?id=<%=user.getProfilePhoto().getId()%>" alt="Car 1" class="table-img"></td>
+            <%} else {%>
+            <td><img src="user1.jpg" alt="User 1"></td>
+            <%} %>
         </div>
         <h2>Full name: <%=user.getFirstName()+" "+user.getLastName()%></h2>
         <p>Phone: <%=user.getPhone()%></p>
@@ -103,8 +107,8 @@
     </div>
 
     <div class="buttons">
-        <button class="button">Edit Profile</button>
-        <button class="button">Back</button>
+        <a href="setProfile..jsp?id=<%=user.getId()%>" class="button">Edit Profile</a>
+        <a href="index.jsp" class="btn btn-danger text-white">Back</a>
         <a href="${pageContext.request.contextPath}/user/logout" class="button btn-danger text-white">Logout</a>
     </div>
 </div>

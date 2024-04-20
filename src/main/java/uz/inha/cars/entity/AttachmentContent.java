@@ -19,6 +19,6 @@ public class AttachmentContent {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private byte[] content;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Attachment attachment;
 }

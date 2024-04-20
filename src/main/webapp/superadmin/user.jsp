@@ -104,7 +104,7 @@
     }
     List<User> users = UserRepo.findAll();
     Object o1 = session.getAttribute("currentUser");
-    User user1 = (User)o1;
+    User user1 = (User) o1;
     users.removeIf(user -> user.getPhone().equals(user1.getPhone()));
 %>
 <div class="container">
@@ -120,20 +120,28 @@
             </tr>
             </thead>
             <tbody>
-            <%for (User user : users) {
-                StringJoiner roles = new StringJoiner(" ");
-                for (Role role : user.getRoles()) {
-                    roles.add(role.getRoleName().toString());
-                }
+            <%
+                for (User user : users) {
+                    StringJoiner roles = new StringJoiner(" ");
+                    for (Role role : user.getRoles()) {
+                        roles.add(role.getRoleName().toString());
+                    }
             %>
             <tr>
-                <td><img src="user1.jpg" alt="User 1"></td>
-                <td><%=user.getFirstName()%></td>
-                <td><%=user.getLastName()%></td>
-                <td><%=roles%></td>
+                <%if (user.getProfilePhoto() != null) {%>
+                <td><img src="/file?id=<%=user.getProfilePhoto().getId()%>" alt="Car 1" class="table-img"></td>
+                <%} else {%>
+                    <td><img src="user1.jpg" alt="User 1"></td>
+                <%} %>
+                <td><%=user.getFirstName()%>
+                </td>
+                <td><%=user.getLastName()%>
+                </td>
+                <td><%=roles%>
+                </td>
                 <td class="actions">
-                    <a class="btn btn-dark text-white">Edit</a>
-                    <a class="btn btn-danger text-white">Delete</a>
+                    <a href="editUser.jsp?id=<%=user.getId()%>" class="btn btn-dark text-white">Edit</a>
+                    <a href="${pageContext.request.contextPath}/superadmin/user/delete?id=<%=user.getId()%>" class="btn btn-danger text-white">Delete</a>
                 </td>
             </tr>
             <%}%>

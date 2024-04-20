@@ -19,7 +19,7 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @NotBlank(message = "name kirit bolakay")
+    @NotBlank(message = "please enter the name")
     private String name;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Company company;

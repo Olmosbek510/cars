@@ -3,6 +3,7 @@
 <%@ page import="uz.inha.cars.entity.Car" %>
 <%@ page import="java.util.List" %>
 <%@ page import="uz.inha.cars.entity.CarDetail" %>
+<%@ page import="uz.inha.cars.entity.enums.RoleName" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -101,11 +102,19 @@
         user = (User) o;
         System.out.println(user.getFirstName());
     }
+    if (user != null) {
+        if (user.hasRole(RoleName.ROLE_SUPER_ADMIN)) {
+            response.sendRedirect("/superadmin/superadmin.jsp");
+        } else if (user.hasRole(RoleName.ROLE_ADMIN)) {
+            response.sendRedirect("/admin/admin.jsp");
+        }
+    }
     List<Car> cars = CarRepo.findAll();
 %>
 <div class="header">
     <%if (user != null) {%>
-    <a href="userProfile.jsp?id=<%=user.getId()%>" class="user-link"><%=user.getFirstName()%></a>
+    <a href="userProfile.jsp?id=<%=user.getId()%>" class="user-link"><%=user.getFirstName()%>
+    </a>
     <%} else {%>
     <div>
         <a class="btn btn-dark text-white" href="login.jsp">Login</a>

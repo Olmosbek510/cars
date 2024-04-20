@@ -1,6 +1,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="uz.inha.cars.entity.CarDetail" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.UUID" %>
+<%@ page import="uz.inha.cars.repo.CarRepo" %>
+<%@ page import="uz.inha.cars.entity.Car" %><%--
   Created by IntelliJ IDEA.
   User: orazboyevolmosbek
   Date: 17/04/24
@@ -17,7 +20,9 @@
 <%
     @SuppressWarnings("unchecked")
     Object o = session.getAttribute("details");
-    List<CarDetail> carDetails = new ArrayList<>();
+    UUID id = UUID.fromString(request.getParameter("id"));
+    Car car = CarRepo.findById(id);
+    List<CarDetail> carDetails = car.getCarDetails();
     if(o!=null){
         carDetails.addAll((List<CarDetail>)o);
     }
@@ -28,7 +33,7 @@
     <%}%>
     <li></li>
 </ul>
-<form action="/admin/car/addDetail" method="post">
+<form action="${pageContext.request.contextPath}/admin/car/addDetail" method="post">
     <input name="carId" type="hidden" value="<%=request.getParameter("id")%>">
 <label>
     <input type="text" placeholder="key" name="key">

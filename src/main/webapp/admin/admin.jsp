@@ -51,7 +51,7 @@
     %>
     <h2 class="text-center text-white mb-4">Admin Panel</h2>
     <a href="car.jsp">Cars</a>
-    <a href="#">Logout</a>
+    <a href="${pageContext.request.contextPath}/user/logout">Logout</a>
 </div>
 
 <!-- Page content -->
